@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
-namespace Aserto.NETCore3.Auth0.Controllers
+namespace Aserto.TodoApp.Controllers
 {
   [ApiController]
   [Route("/user/{userid}")]

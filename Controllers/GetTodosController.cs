@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using AutoMapper;
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Aserto.TodoApp.Domain.Models;
 using Aserto.TodoApp.Domain.Services;
+using Aserto.TodoApp.Resources;
 
 namespace Aserto.TodoApp.Controllers
 {
@@ -14,19 +16,22 @@ namespace Aserto.TodoApp.Controllers
   public class GetTodosController : ControllerBase
   {
     private readonly ITodoService _todoService;
+    private readonly IMapper _mapper;
 
-    public GetTodosController(ITodoService todoService)
+    public GetTodosController(ITodoService todoService, IMapper mapper)
     {
       _todoService = todoService;
+      _mapper = mapper;
     }
 
     [HttpGet]
     // [Authorize("Aserto")]
 
-    public async Task<IEnumerable<Todo>> GetAllAsync()
+    public async Task<IEnumerable<TodoResource>> GetAllAsync()
     {
       var todos = await _todoService.ListAsync();
-      return todos;
+      var resources = _mapper.Map<IEnumerable<Todo>, IEnumerable<TodoResource>>(todos);
+      return resources;
     }
   }
 }

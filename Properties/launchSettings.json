@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Aserto.NETCore3.Auth0": {
+    "Aserto.TodoApp": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "asertosample",

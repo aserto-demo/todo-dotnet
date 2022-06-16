@@ -16,14 +16,15 @@ namespace Aserto.TodoApp.Persistence.Contexts
       builder.Entity<Todo>().ToTable("Todos");
       builder.Entity<Todo>().HasKey(p => p.Id);
       builder.Entity<Todo>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
+      builder.Entity<Todo>().Property(p => p.Content).IsRequired();
       builder.Entity<Todo>().Property(p => p.OwnerId).IsRequired();
       builder.Entity<Todo>().Property(p => p.Completed).IsRequired();
 
-      // builder.Entity<Todo>().HasData
-      // (
-      //     new Category { Id = 100, Name = "Fruits and Vegetables" }, // Id set manually due to in-memory provider
-      //     new Category { Id = 101, Name = "Dairy" }
-      // );
+      builder.Entity<Todo>().HasData
+      (
+          new Todo { Id = 100, Content = "Todo 1", Completed = false, OwnerId = "123" },
+          new Todo { Id = 101, Content = "Todo 2", Completed = false, OwnerId = "123" }
+      );
     }
   }
 }

@@ -1,23 +1,25 @@
 using Aserto.AspNetCore.Middleware.Extensions;
 using Aserto.AspNetCore.Middleware.Policies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+// using Microsoft.Extensions.Logging;
+// using Microsoft.IdentityModel.Tokens;
+// using System;
+// using System.Collections.Generic;
+// using System.Linq;
+// using System.Security.Claims;
+// using System.Threading.Tasks;
+// using Microsoft.AspNetCore.Authorization;
+// using Microsoft.AspNetCore.HttpsPolicy;
+// using Microsoft.AspNetCore.Mvc;
+// using Microsoft.AspNetCore.Mvc.Authorization;
+// using AutoMapper;
 
 
 using Aserto.TodoApp.Domain.Repositories;
@@ -49,6 +51,7 @@ namespace Aserto.TodoApp
       });
 
       services.AddScoped<ITodoRepository, TodoRepository>();
+      services.AddScoped<IUnitOfWork, UnitOfWork>();
       services.AddScoped<ITodoService, TodoService>();
 
       services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
@@ -69,11 +72,8 @@ namespace Aserto.TodoApp
       // Only authorizes the endpoints that have the [Authorize("Aserto")] attribute
       services.AddControllers();
 
-      //// Authorizes all the endpoints. The below code is equivalent to decorating all endpoints with [Authorize("Aserto")] attribute
-      //services.AddControllers().AddMvcOptions(options =>
-      //{
-      //    options.Filters.Add(new AuthorizeFilter("Aserto"));
-      //});
+      services.AddAutoMapper(typeof(Startup).Assembly);
+
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -8,5 +8,8 @@ namespace Aserto.TodoApp.Domain.Repositories
   public interface ITodoRepository
   {
     Task<IEnumerable<Todo>> ListAsync();
+    Task AddAsync(Todo todo);
+    Task<Todo> FindByIdAsync(int id);
+    void Update(Todo todo);
   }
 }

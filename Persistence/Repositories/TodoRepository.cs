@@ -17,5 +17,20 @@ namespace Aserto.TodoApp.Persistence.Repositories
     {
       return await _context.Todos.ToListAsync();
     }
+
+    public async Task AddAsync(Todo todo)
+    {
+      await _context.Todos.AddAsync(todo);
+    }
+
+    public async Task<Todo> FindByIdAsync(int id)
+    {
+      return await _context.Todos.FindAsync(id);
+    }
+
+    public void Update(Todo todo)
+    {
+      _context.Todos.Update(todo);
+    }
   }
 }
