@@ -9,5 +9,7 @@ namespace Aserto.TodoApp.Domain.Services
     Task<IEnumerable<Todo>> ListAsync();
     Task<SaveTodoResponse> SaveAsync(Todo todo);
     Task<SaveTodoResponse> UpdateAsync(Todo todo);
+
+    Task<DeleteTodoResponse> DeleteAsync(Todo todo);
   }
 }

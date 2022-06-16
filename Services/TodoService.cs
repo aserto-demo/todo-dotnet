@@ -66,5 +66,21 @@ namespace Aserto.TodoApp.Services
         return new SaveTodoResponse($"An error occurred when updating the todo: {ex.Message}");
       }
     }
+
+    public async Task<DeleteTodoResponse> DeleteAsync(Todo todo)
+    {
+      try
+      {
+        _todoRepository.Delete(todo);
+        await _unitOfWork.CompleteAsync();
+
+        return new DeleteTodoResponse(true);
+      }
+      catch (Exception ex)
+      {
+        // Do some logging stuff
+        return new DeleteTodoResponse($"An error occurred when deleting the todo: {ex.Message}");
+      }
+    }
   }
 }

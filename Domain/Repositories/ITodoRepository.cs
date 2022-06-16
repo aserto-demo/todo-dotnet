@@ -11,5 +11,7 @@ namespace Aserto.TodoApp.Domain.Repositories
     Task AddAsync(Todo todo);
     Task<Todo> FindByIdAsync(int id);
     void Update(Todo todo);
+
+    void Delete(Todo todo);
   }
 }

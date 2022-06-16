@@ -1,18 +1,45 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using AutoMapper;
 
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Aserto.TodoApp.Domain.Models;
+using Aserto.TodoApp.Domain.Services;
+using Aserto.TodoApp.Resources;
+using Aserto.TodoApp.Extensions;
 namespace Aserto.TodoApp.Controllers
 {
   [ApiController]
   [Route("/todo/{ownerID}")]
   public class DeleteTodoOwnerIDController : ControllerBase
   {
+
+    private readonly ITodoService _todoService;
+    private readonly IMapper _mapper;
+
+    public DeleteTodoOwnerIDController(ITodoService todoService, IMapper mapper)
+    {
+      _todoService = todoService;
+      _mapper = mapper;
+    }
+
     [HttpDelete]
     // [Authorize("Aserto")]
-    public String DeleteTodoOwnerID(string ownerID)
+    public async Task<IActionResult> DeleteAsync([FromBody] SaveTodoResource resource)
     {
-      return "Hello from " + ownerID + "!";
+      if (!ModelState.IsValid)
+        return BadRequest(ModelState.GetErrorMessages());
+
+      var todo = _mapper.Map<SaveTodoResource, Todo>(resource);
+      var result = await _todoService.DeleteAsync(todo);
+
+      if (!result.Success)
+        return BadRequest(result.Message);
+
+      var todoResource = _mapper.Map<Todo, TodoResource>(result.Todo);
+      return Ok(true);
     }
   }
 }

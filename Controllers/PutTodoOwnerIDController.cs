@@ -34,7 +34,6 @@ namespace Aserto.TodoApp.Controllers
         return BadRequest(ModelState.GetErrorMessages());
 
       var todo = _mapper.Map<SaveTodoResource, Todo>(resource);
-      Console.Write(todo.Content);
       var result = await _todoService.UpdateAsync(todo);
 
       if (!result.Success)

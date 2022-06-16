@@ -32,5 +32,10 @@ namespace Aserto.TodoApp.Persistence.Repositories
     {
       _context.Todos.Update(todo);
     }
+
+    public void Delete(Todo todo)
+    {
+      _context.Todos.Remove(todo);
+    }
   }
 }
