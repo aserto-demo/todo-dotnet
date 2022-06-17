@@ -1,27 +1,13 @@
-using Aserto.AspNetCore.Middleware.Extensions;
-using Aserto.AspNetCore.Middleware.Policies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
-// using Microsoft.Extensions.Logging;
-// using Microsoft.IdentityModel.Tokens;
-// using System;
-// using System.Collections.Generic;
-// using System.Linq;
-// using System.Security.Claims;
-// using System.Threading.Tasks;
-// using Microsoft.AspNetCore.Authorization;
-// using Microsoft.AspNetCore.HttpsPolicy;
-// using Microsoft.AspNetCore.Mvc;
-// using Microsoft.AspNetCore.Mvc.Authorization;
-// using AutoMapper;
 
-
+using Aserto.AspNetCore.Middleware.Extensions;
+using Aserto.AspNetCore.Middleware.Policies;
 using Aserto.TodoApp.Domain.Repositories;
 using Aserto.TodoApp.Domain.Services;
 using Aserto.TodoApp.Persistence.Contexts;
@@ -55,15 +41,28 @@ namespace Aserto.TodoApp
       services.AddScoped<IUnitOfWork, UnitOfWork>();
       services.AddScoped<ITodoService, TodoService>();
       services.AddScoped<IUserService, UserService>();
+      var policyName = "CorsPolicy";
 
-      services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+      services.AddCors(options =>
       {
-        options.Authority = domain;
-        options.Audience = Configuration["OAuth:Audience"];
+        options.AddDefaultPolicy(
+          policy =>
+          {
+            policy
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+          });
       });
 
+      // services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+      // {
+      //   options.Authority = domain;
+      //   options.Audience = Configuration["OAuth:Audience"];
+      // });
+
       //Aserto options handling
-      services.AddAsertoAuthorization(options => Configuration.GetSection("Aserto").Bind(options));
+      // services.AddAsertoAuthorization(options => Configuration.GetSection("Aserto").Bind(options));
       //end Aserto options handling
 
       services.Configure<AsertoConfig>(Configuration.GetSection("Aserto"));
@@ -73,7 +72,10 @@ namespace Aserto.TodoApp
         options.AddPolicy("Aserto", policy => policy.Requirements.Add(new AsertoDecisionRequirement()));
       });
 
+
       // Only authorizes the endpoints that have the [Authorize("Aserto")] attribute
+
+
       services.AddControllers();
 
       services.AddAutoMapper(typeof(Startup).Assembly);
@@ -92,16 +94,14 @@ namespace Aserto.TodoApp
 
       app.UseRouting();
 
+      // global cors policy
+      app.UseCors(); // allow credentials
+
       app.UseAuthentication();
 
       app.UseAuthorization();
 
-      app.UseEndpoints(endpoints =>
-      {
-        endpoints.MapControllers();
-        //// Authorizes all the endpoints. The below code is equivalent to decorating all endpoints with [Authorize("Aserto")] attribute
-        //endpoints.MapControllers().RequireAuthorization("Aserto");
-      });
+      app.UseEndpoints(endpoints => endpoints.MapControllers());
     }
   }
 }

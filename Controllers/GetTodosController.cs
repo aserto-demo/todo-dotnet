@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Aserto.TodoApp.Domain.Models;
 using Aserto.TodoApp.Domain.Services;
 using Aserto.TodoApp.Resources;
+using Microsoft.AspNetCore.Cors;
 
 namespace Aserto.TodoApp.Controllers
 {
@@ -24,6 +25,7 @@ namespace Aserto.TodoApp.Controllers
       _mapper = mapper;
     }
 
+    [EnableCors("CorsPolicy")]
     [HttpGet]
     // [Authorize("Aserto")]
 
