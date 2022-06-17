@@ -4,7 +4,7 @@ namespace Aserto.TodoApp.Resources
   {
     public int Id { get; set; }
     public string Content { get; set; }
-    public string Completed { get; set; }
+    public bool Completed { get; set; }
     public string OwnerId { get; set; }
   }
 }
