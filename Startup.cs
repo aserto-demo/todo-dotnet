@@ -27,6 +27,7 @@ using Aserto.TodoApp.Domain.Services;
 using Aserto.TodoApp.Persistence.Contexts;
 using Aserto.TodoApp.Persistence.Repositories;
 using Aserto.TodoApp.Services;
+using Aserto.TodoApp.Configuration;
 
 namespace Aserto.TodoApp
 {
@@ -53,6 +54,7 @@ namespace Aserto.TodoApp
       services.AddScoped<ITodoRepository, TodoRepository>();
       services.AddScoped<IUnitOfWork, UnitOfWork>();
       services.AddScoped<ITodoService, TodoService>();
+      services.AddScoped<IUserService, UserService>();
 
       services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
       {
@@ -63,6 +65,8 @@ namespace Aserto.TodoApp
       //Aserto options handling
       services.AddAsertoAuthorization(options => Configuration.GetSection("Aserto").Bind(options));
       //end Aserto options handling
+
+      services.Configure<AsertoConfig>(Configuration.GetSection("Aserto"));
 
       services.AddAuthorization(options =>
       {
