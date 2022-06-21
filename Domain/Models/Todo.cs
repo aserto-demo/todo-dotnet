@@ -5,9 +5,9 @@ namespace Aserto.TodoApp.Domain.Models
 {
   public class Todo
   {
-    public int Id { get; set; }
-    public string Content { get; set; }
+    public string ID { get; set; }
+    public string Title { get; set; }
     public bool Completed { get; set; }
-    public string OwnerId { get; set; }
+    public string OwnerID { get; set; }
   }
 }

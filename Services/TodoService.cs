@@ -43,15 +43,15 @@ namespace Aserto.TodoApp.Services
 
     public async Task<SaveTodoResponse> UpdateAsync(Todo todo)
     {
-      var existingTodo = await _todoRepository.FindByIdAsync(todo.Id);
+      var existingTodo = await _todoRepository.FindByIdAsync(todo.ID);
 
       if (existingTodo == null)
         return new SaveTodoResponse("Todo not found.");
 
-      existingTodo.Id = todo.Id;
+      existingTodo.ID = todo.ID;
       existingTodo.Completed = todo.Completed;
-      existingTodo.Content = todo.Content;
-      existingTodo.OwnerId = todo.OwnerId;
+      existingTodo.Title = todo.Title;
+      existingTodo.OwnerID = todo.OwnerID;
 
       try
       {

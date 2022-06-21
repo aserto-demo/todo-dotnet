@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Cors;
 namespace Aserto.TodoApp.Controllers
 {
   [ApiController]
-  [Route("/user/{userid}")]
+  [Route("/user/{userID}")]
   public class GetUserUserIDController : ControllerBase
   {
     private readonly IUserService _userService;
@@ -26,18 +26,12 @@ namespace Aserto.TodoApp.Controllers
       _mapper = mapper;
     }
 
-    [EnableCors("CorsPolicy")]
     [HttpGet]
-    // [Authorize("Aserto")]
-    public async Task<IActionResult> GetAllAsync(string userid)
+    [Authorize("Aserto")]
+    public async Task<IActionResult> GetAllAsync(string userID)
     {
-      var result = await _userService.Get(userid);
-      // var resource = _mapper.Map<User, UserResource>(result.User);
-      // if (!result.Success)
-      //   return BadRequest(result.Message);
-
-
-      return Ok(result);
+      var result = await _userService.Get(userID);
+      return Ok(result.User);
     }
   }
 }

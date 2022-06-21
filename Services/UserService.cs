@@ -22,8 +22,6 @@ namespace Aserto.TodoApp.Services
     public UserService(IOptions<AsertoConfig> config)
     {
       _config = config;
-      client.DefaultRequestHeaders.Add("Authorization", $"basic {_config.Value.AuthorizerApiKey}");
-      client.DefaultRequestHeaders.Add("aserto-tenant-id", $"{_config.Value.TenantId}");
       authorizerServiceUrl = _config.Value.ServiceUrl.Replace(":8443", "");
     }
 
@@ -32,7 +30,10 @@ namespace Aserto.TodoApp.Services
       try
       {
         var url = $"{authorizerServiceUrl}/api/v1/dir/users/{id}?fields.mask=id,display_name,picture,email";
-        HttpResponseMessage response = await client.GetAsync(url);
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("basic", _config.Value.AuthorizerApiKey);
+        request.Headers.Add("aserto-tenant-id", _config.Value.TenantId);
+        HttpResponseMessage response = await client.SendAsync(request);
         response.EnsureSuccessStatusCode();
         string responseBody = await response.Content.ReadAsStringAsync();
         UserResponse user = JsonSerializer.Deserialize<UserResponse>(responseBody);
@@ -58,7 +59,11 @@ namespace Aserto.TodoApp.Services
       var payload = new UserIdentityPayload { identity = sub };
       string jsonString = JsonSerializer.Serialize(payload);
       var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
-      HttpResponseMessage response = await client.PostAsync(url, content);
+      var request = new HttpRequestMessage(HttpMethod.Post, url);
+      request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("basic", _config.Value.AuthorizerApiKey);
+      request.Headers.Add("aserto-tenant-id", _config.Value.TenantId);
+      request.Content = content;
+      HttpResponseMessage response = await client.SendAsync(request);
       response.EnsureSuccessStatusCode();
       string responseBody = await response.Content.ReadAsStringAsync();
       UserIdentity identity = JsonSerializer.Deserialize<UserIdentity>(responseBody);
@@ -67,9 +72,17 @@ namespace Aserto.TodoApp.Services
 
     public async Task<GetUserResponse> Get(string sub)
     {
-      var identity = await GetUserIdentityBySub(sub);
-      Console.Write($"Identity ${identity.UserId}");
-      return await GetUserById(identity.UserId);
+
+      if (sub != "undefined")
+      {
+        var identity = await GetUserIdentityBySub(sub);
+        return await GetUserById(identity.UserId);
+      }
+      else
+      {
+        return new GetUserResponse("No user identity provided");
+      }
+
     }
   }
 }

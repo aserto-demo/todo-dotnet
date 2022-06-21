@@ -4,12 +4,12 @@ namespace Aserto.TodoApp.Resources
 {
   public class SaveTodoResource
   {
-    public int Id { get; set; }
+    public string ID { get; set; }
     [Required]
 
-    public string Content { get; set; }
+    public string Title { get; set; }
 
-    public string OwnerId { get; set; }
+    public string OwnerID { get; set; }
 
     public bool Completed { get; set; }
   }

@@ -25,9 +25,9 @@ namespace Aserto.TodoApp.Controllers
       _mapper = mapper;
     }
 
-    [EnableCors("CorsPolicy")]
+    // [EnableCors("CorsPolicy")]
     [HttpGet]
-    // [Authorize("Aserto")]
+    [Authorize("Aserto")]
 
     public async Task<IEnumerable<TodoResource>> GetAllAsync()
     {

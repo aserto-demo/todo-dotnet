@@ -9,15 +9,20 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Aserto.TodoApp.Persistence.Contexts;
-
-
 namespace Aserto.TodoApp
 {
   public class Program
   {
     public static void Main(string[] args)
     {
-      var host = CreateHostBuilder(args).Build();
+      var builder = CreateHostBuilder(args);
+
+      builder.ConfigureLogging(logging =>
+      {
+        logging.AddConsole();
+      });
+
+      var host = builder.Build();
 
       using (var scope = host.Services.CreateScope())
       using (var context = scope.ServiceProvider.GetService<AppDbContext>())

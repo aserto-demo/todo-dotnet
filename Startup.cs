@@ -41,28 +41,15 @@ namespace Aserto.TodoApp
       services.AddScoped<IUnitOfWork, UnitOfWork>();
       services.AddScoped<ITodoService, TodoService>();
       services.AddScoped<IUserService, UserService>();
-      var policyName = "CorsPolicy";
 
-      services.AddCors(options =>
+      services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
       {
-        options.AddDefaultPolicy(
-          policy =>
-          {
-            policy
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader();
-          });
+        options.Authority = domain;
+        options.Audience = Configuration["OAuth:Audience"];
       });
 
-      // services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-      // {
-      //   options.Authority = domain;
-      //   options.Audience = Configuration["OAuth:Audience"];
-      // });
-
       //Aserto options handling
-      // services.AddAsertoAuthorization(options => Configuration.GetSection("Aserto").Bind(options));
+      services.AddAsertoAuthorization(options => Configuration.GetSection("Aserto").Bind(options));
       //end Aserto options handling
 
       services.Configure<AsertoConfig>(Configuration.GetSection("Aserto"));
@@ -71,13 +58,9 @@ namespace Aserto.TodoApp
       {
         options.AddPolicy("Aserto", policy => policy.Requirements.Add(new AsertoDecisionRequirement()));
       });
-
-
       // Only authorizes the endpoints that have the [Authorize("Aserto")] attribute
 
-
       services.AddControllers();
-
       services.AddAutoMapper(typeof(Startup).Assembly);
 
     }
@@ -95,7 +78,13 @@ namespace Aserto.TodoApp
       app.UseRouting();
 
       // global cors policy
-      app.UseCors(); // allow credentials
+      app.UseCors(x =>
+      {
+        x.AllowAnyHeader();
+        x.AllowAnyMethod();
+        x.WithOrigins("http://localhost:3000");
+        x.AllowCredentials();
+      }); // allow credentials
 
       app.UseAuthentication();
 

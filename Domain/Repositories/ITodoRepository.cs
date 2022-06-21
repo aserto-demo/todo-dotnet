@@ -9,7 +9,7 @@ namespace Aserto.TodoApp.Domain.Repositories
   {
     Task<IEnumerable<Todo>> ListAsync();
     Task AddAsync(Todo todo);
-    Task<Todo> FindByIdAsync(int id);
+    Task<Todo> FindByIdAsync(string id);
     void Update(Todo todo);
 
     void Delete(Todo todo);

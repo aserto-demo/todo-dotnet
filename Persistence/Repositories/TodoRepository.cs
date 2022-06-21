@@ -23,7 +23,7 @@ namespace Aserto.TodoApp.Persistence.Repositories
       await _context.Todos.AddAsync(todo);
     }
 
-    public async Task<Todo> FindByIdAsync(int id)
+    public async Task<Todo> FindByIdAsync(string id)
     {
       return await _context.Todos.FindAsync(id);
     }
