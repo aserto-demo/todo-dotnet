@@ -1,15 +1,11 @@
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System;
 using AutoMapper;
-
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Aserto.TodoApp.Domain.Models;
 using Aserto.TodoApp.Domain.Services;
 using Aserto.TodoApp.Resources;
-using Microsoft.AspNetCore.Cors;
-
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 namespace Aserto.TodoApp.Controllers
 {
   [ApiController]
@@ -25,7 +21,6 @@ namespace Aserto.TodoApp.Controllers
       _mapper = mapper;
     }
 
-    // [EnableCors("CorsPolicy")]
     [HttpGet]
     [Authorize("Aserto")]
 

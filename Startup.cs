@@ -84,7 +84,7 @@ namespace Aserto.TodoApp
         x.AllowAnyMethod();
         x.WithOrigins("http://localhost:3000");
         x.AllowCredentials();
-      }); // allow credentials
+      });
 
       app.UseAuthentication();
 

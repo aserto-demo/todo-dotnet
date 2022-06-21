@@ -1,15 +1,8 @@
+using AutoMapper;
+using Aserto.TodoApp.Domain.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using AutoMapper;
-
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Aserto.TodoApp.Domain.Models;
-using Aserto.TodoApp.Domain.Services;
-using Aserto.TodoApp.Resources;
-using Microsoft.AspNetCore.Cors;
-
 namespace Aserto.TodoApp.Controllers
 {
   [ApiController]

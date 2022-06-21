@@ -62,7 +62,6 @@ namespace Aserto.TodoApp.Services
       }
       catch (Exception ex)
       {
-        // Do some logging stuff
         return new SaveTodoResponse($"An error occurred when updating the todo: {ex.Message}");
       }
     }
@@ -78,7 +77,6 @@ namespace Aserto.TodoApp.Services
       }
       catch (Exception ex)
       {
-        // Do some logging stuff
         return new DeleteTodoResponse($"An error occurred when deleting the todo: {ex.Message}");
       }
     }

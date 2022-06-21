@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Aserto.TodoApp.Domain.Models;
-
 namespace Aserto.TodoApp.Persistence.Contexts
 {
   public class AppDbContext : DbContext
@@ -19,12 +18,6 @@ namespace Aserto.TodoApp.Persistence.Contexts
       builder.Entity<Todo>().Property(p => p.Title).IsRequired();
       builder.Entity<Todo>().Property(p => p.OwnerID).IsRequired();
       builder.Entity<Todo>().Property(p => p.Completed).IsRequired();
-
-      // builder.Entity<Todo>().HasData
-      // (
-      //     new Todo { ID = "100", Title = "Todo 1", Completed = false, OwnerID = "fd0614d3-c39a-4781-b7bd-8b96f5a5100d" },
-      //     new Todo { ID = "101", Title = "Todo 2", Completed = false, OwnerID = "fd0614d3-c39a-4781-b7bd-8b96f5a5100d" }
-      // );
     }
   }
 }
