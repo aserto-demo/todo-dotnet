@@ -11,6 +11,7 @@ using Aserto.TodoApp.Domain.Services;
 using Aserto.TodoApp.Persistence.Contexts;
 using Aserto.TodoApp.Persistence.Repositories;
 using Aserto.TodoApp.Services;
+using Aserto.TodoApp.Configuration;
 
 namespace Aserto.TodoApp
 {
@@ -45,6 +46,8 @@ namespace Aserto.TodoApp
         options.Audience = Configuration["OAuth:Audience"];
       });
 
+      services.Configure<AsertoConfig>(Configuration.GetSection("Aserto"));
+
       services.AddControllers();
       services.AddAutoMapper(typeof(Startup).Assembly);
 
@@ -72,6 +75,8 @@ namespace Aserto.TodoApp
       });
 
       app.UseAuthentication();
+
+      // app.UseAuthorization();
 
       app.UseEndpoints(endpoints => endpoints.MapControllers());
     }
