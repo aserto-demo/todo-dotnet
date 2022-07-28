@@ -2,7 +2,6 @@ using AutoMapper;
 using Aserto.TodoApp.Domain.Models;
 using Aserto.TodoApp.Domain.Services;
 using Aserto.TodoApp.Resources;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
