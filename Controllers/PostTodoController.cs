@@ -5,6 +5,8 @@ using Aserto.TodoApp.Resources;
 using Aserto.TodoApp.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+
 namespace Aserto.TodoApp.Controllers
 {
   [ApiController]
@@ -21,7 +23,7 @@ namespace Aserto.TodoApp.Controllers
     }
 
     [HttpPost]
-    // [Authorize("Aserto")]
+    [Authorize("Aserto")]
     public async Task<IActionResult> PostAsync([FromBody] SaveTodoResource resource)
     {
       if (!ModelState.IsValid)

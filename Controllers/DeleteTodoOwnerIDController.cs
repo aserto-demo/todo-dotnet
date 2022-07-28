@@ -5,6 +5,8 @@ using Aserto.TodoApp.Resources;
 using Aserto.TodoApp.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+
 namespace Aserto.TodoApp.Controllers
 {
   [ApiController]
@@ -22,7 +24,7 @@ namespace Aserto.TodoApp.Controllers
     }
 
     [HttpDelete]
-    // [Authorize("Aserto")]
+    [Authorize("Aserto")]
     public async Task<IActionResult> DeleteAsync([FromBody] SaveTodoResource resource)
     {
       if (!ModelState.IsValid)

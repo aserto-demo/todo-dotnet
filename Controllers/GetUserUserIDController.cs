@@ -20,7 +20,7 @@ namespace Aserto.TodoApp.Controllers
     }
 
     [HttpGet]
-    // [Authorize("Aserto")]
+    [Authorize("Aserto")]
     public async Task<IActionResult> GetAllAsync(string userID)
     {
       var result = await _userService.Get(userID);
