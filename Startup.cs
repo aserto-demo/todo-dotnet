@@ -6,14 +6,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 
-using Aserto.AspNetCore.Middleware.Extensions;
-using Aserto.AspNetCore.Middleware.Policies;
 using Aserto.TodoApp.Domain.Repositories;
 using Aserto.TodoApp.Domain.Services;
 using Aserto.TodoApp.Persistence.Contexts;
 using Aserto.TodoApp.Persistence.Repositories;
 using Aserto.TodoApp.Services;
-using Aserto.TodoApp.Configuration;
 
 namespace Aserto.TodoApp
 {
@@ -48,18 +45,6 @@ namespace Aserto.TodoApp
         options.Audience = Configuration["OAuth:Audience"];
       });
 
-      //Aserto options handling
-      services.AddAsertoAuthorization(options => Configuration.GetSection("Aserto").Bind(options));
-      //end Aserto options handling
-
-      services.Configure<AsertoConfig>(Configuration.GetSection("Aserto"));
-
-      services.AddAuthorization(options =>
-      {
-        options.AddPolicy("Aserto", policy => policy.Requirements.Add(new AsertoDecisionRequirement()));
-      });
-      // Only authorizes the endpoints that have the [Authorize("Aserto")] attribute
-
       services.AddControllers();
       services.AddAutoMapper(typeof(Startup).Assembly);
 
@@ -87,8 +72,6 @@ namespace Aserto.TodoApp
       });
 
       app.UseAuthentication();
-
-      app.UseAuthorization();
 
       app.UseEndpoints(endpoints => endpoints.MapControllers());
     }

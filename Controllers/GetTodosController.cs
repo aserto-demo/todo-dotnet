@@ -22,8 +22,6 @@ namespace Aserto.TodoApp.Controllers
     }
 
     [HttpGet]
-    [Authorize("Aserto")]
-
     public async Task<IEnumerable<TodoResource>> GetAllAsync()
     {
       var todos = await _todoService.ListAsync();

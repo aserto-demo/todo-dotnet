@@ -22,7 +22,6 @@ namespace Aserto.TodoApp.Controllers
     }
 
     [HttpDelete]
-    // [Authorize("Aserto")]
     public async Task<IActionResult> DeleteAsync([FromBody] SaveTodoResource resource)
     {
       if (!ModelState.IsValid)

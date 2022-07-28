@@ -22,7 +22,6 @@ namespace Aserto.TodoApp.Controllers
     }
 
     [HttpPut]
-    // [Authorize("Aserto")]
     public async Task<IActionResult> PutAsync([FromBody] SaveTodoResource resource)
     {
       if (!ModelState.IsValid)
